@@ -1,0 +1,32 @@
+.info{
+    background: #f4f4f4;
+    padding: 30px;
+    height: 100%;
+}
+.map{
+    height: 400px;
+}
+.icons{
+    background-color: #dc3545;
+    border-radius: 50%;
+    width: 50px;
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    color: white;  
+}
+h3{
+    color: #6c757d;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+p{
+    padding: 0;
+    margin: 0;
+    line-height: 24px;
+    cursor: pointer;
+}
+.details{
+    padding-left: 20px;
+}

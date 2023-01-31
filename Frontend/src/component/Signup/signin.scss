@@ -1,0 +1,76 @@
+@import "~bootstrap/scss/bootstrap";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.landing-page {
+  font-family: ui-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../../Assets/pictures/about-2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+
+  .content {
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    display: flex;
+    height: 600px;
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .left-side {
+    background-color: white;
+
+    .heading {
+      margin-left: 15px;
+      margin-top: 25px;
+
+      h3 {
+        font-weight: 700;
+      }
+
+      h5 {
+        font-weight: 600;
+      }
+
+      p {
+        opacity: 0.7;
+      }
+    }
+
+    .details {
+      .buttons {
+        margin: 10px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+      }
+
+      .login,
+      .cancel {
+        width: 48%;
+      }
+    }
+  }
+
+  .image-part {
+    background-image: url(../../Assets/pictures/front-food.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+  }
+}
