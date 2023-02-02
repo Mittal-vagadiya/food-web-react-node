@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-scroll';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Assets/general.scss';
 import picture from '../Assets/pictures/Food/foodpic1.png';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-scroll';
 export const TopPart = (props) => {
     return (
         <>

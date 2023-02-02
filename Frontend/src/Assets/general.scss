@@ -92,7 +92,6 @@ body{
   justify-content: center;
   text-align: center;
   padding: 70px 0px;
-  // margin-top: 91px;
 
   .about-content .heading p {
     font-size: 15px;
@@ -106,7 +105,7 @@ body{
     margin: auto auto;
 
     .first-part-about {
-      background-image: url("../Assets/pictures/about.jpg");
+      background-image: url("../Assets/pictures/About/about.jpg");
       position: relative;
       height: 486px;
 
@@ -330,9 +329,6 @@ body{
 
   .member-image {
       position: relative;
-      background-color: #3bb78f;
-      background-image: linear-gradient(315deg,
-              #3bb78f 0%, #0bab64 74%);
   }
 
   .member-image::before {

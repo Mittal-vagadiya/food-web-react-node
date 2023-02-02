@@ -2,18 +2,39 @@ import React, { useState } from 'react'
 import '../../Assets/landing.scss';
 import booktable from '../../Assets/pictures/front-food.jpg';
 import { useNavigate } from "react-router-dom";
-import { FcGoogle } from 'react-icons/fc';
 
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
-  const [random, setRandom] = useState(['', ' ', '-', null, 'null']);
 
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault();
-    // console.log()
+    let result = await fetch("http://localhost:5000/login", {
+      method: "post",
+      body: JSON.stringify({  email, password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    result = await result.json();
+    if (result) {
+      console.log("result ", result)
+      let local = {
+          email:result.email,
+          userID:result.userId,
+          token: result.token,
+      }
+      localStorage.setItem('users', JSON.stringify(local));
+      navigate("/")
+    } else {
+      console.log("error")
+      setError(true)
+      setTimeout(() => {
+          setError(false);
+      },2000);
+    }
   }
 
   const googlelogin = () => {
@@ -59,16 +80,12 @@ export const Login = () => {
                       <button type="button" className="btn btn-success login" onClick={(e) => login(e)}>Login</button>
                       <button type="button" className="btn btn-success sign" onClick={(e) => signup(e)}>Sign Up</button>
                     </div>
-                    <div className='icons pb-2 d-flex'>
-                      <FcGoogle type='button' onClick={googlelogin} />
-                   {/* <p className='p-3'>Login With Goole</p> */}
-                    </div>
                   </div>
                 </form>
               </div>
             </div>
             <div className='col-md-7 right-side'>
-              <img src={booktable} alt="wrong"></img>
+              <img src={booktable} alt="bookTable"></img>
             </div>
           </div>
         </div>

@@ -75,17 +75,16 @@ export const Events = () => {
             itemClass="carousel-item-padding-40-px"
           >
             {EventData?.map((item) => {
-              console.log("item", item)
               return (
                 <>
-                  <div className='image'  >
-                    <img src={item.image} alt="------" height="800" width="100%" style={{opacity:"0.9"}}/>
+                  <div className='image'>
+                    <img src={item.image} alt="------" height="800" width="100%" style={{opacity:"0.9",padding:"5px"}}/>
                   </div>
                   <section className="card-details">
                     <div className='content'>
-                    <div className='heading'>
+                    {/* <div className='heading'>
                       {item.id}
-                    </div>
+                    </div> */}
                     <div className='data'>
                       {item.occation}
                     </div>
@@ -100,11 +99,6 @@ export const Events = () => {
                   </section>
                 </>)
             })}
-            {/* <div>Item 1</div>
-            <div>Item 2</div>
-            <div>Item 3</div>
-            <div>Item 4</div> */}
-            {/* <EventItem /> */}
           </Carousel>
 
         </div>

@@ -9,36 +9,51 @@ export const Signup = () => {
   const [state, SetState] = useState({
     fname: '',
     lname: "", phone: "",
-    username: "",
+    email: "",
     pass: '',
-    repass: '',
-    check: false
-
+    repass: ''
   })
-  const [check, setCheck] = useState(false);
   const handelChange = (e) => {
     e.preventDefault();
-
-    if (e.target.name == "check") {
-      SetState({ ...state, [e.target.name]: e.target.checked })
-    } else {
-      SetState({ ...state, [e.target.name]: e.target.value })
-    }
+    SetState({ ...state, [e.target.name]: e.target.value })
   }
 
-  useEffect(() => {
-    SetState({ ...state, check: check })
-  }, [check]);
-
-  const submitdata = (e) => {
+  const submitdata = async (e) => {
     e.preventDefault();
-    console.log(state)
-}
+    const { fname, lname, phone, email, pass, repass } = state;
+    // console.log(state)
+
+    let result = await fetch("http://localhost:5000/register", {
+      method: "post",
+      body: JSON.stringify({ fname, lname, phone, email, pass, repass }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    result = await result.json();
+    if (result) {
+      console.log("result ", result)
+      // let local = {
+      //     name: result.data.name,
+      //     email:result.data.email,
+      //     userID: result.data._id,
+      //     token: result.data.token,
+      //     isLognin: true
+      // }
+      // localStorage.setItem('users', JSON.stringify(local));
+      // navigate('/product-list');
+    } else {
+      console.log("error")
+      // setError(true)
+      // setTimeout(() => {
+      //     setError(false);
+      // },2000);
+    }
+  }
   return (
     <>
       <div className="landing-page">
-        <div className='container '>
-
+        <div className='container'>
           <div className='row d-flex content'>
             {passerror && <div className="alert alert-danger" role="alert">
               A simple danger alert—check it out!
@@ -48,7 +63,6 @@ export const Signup = () => {
                 <h3>Food Website</h3>
                 <h5>Create Account</h5>
                 <p>Please Fill Details</p>
-
               </div>
               <div className='form-data'>
                 <form onSubmit={(e) => submitdata(e)}>
@@ -94,8 +108,8 @@ export const Signup = () => {
                       <label htmlFor='email' className='p-1' >Email</label>
                       <input type="text"
                         className='form-control'
-                        name="username"
-                        value={state.username}
+                        name="email"
+                        value={state.email}
                         onChange={(e) => handelChange(e)}
                         required
                         placeholder="Please Enter Your Email..."
@@ -122,11 +136,6 @@ export const Signup = () => {
                         required
                         placeholder="Please Enter Your Password..." />
                     </div>
-                    <div className='form-group p-2'>
-                      <label>
-                        <input className="box" type="checkbox" value={check} onChange={(e) => setCheck(e.target.checked)} name="check" /> Remember me
-                      </label>
-                    </div>
                     <div className='buttons'>
                       <button type="button" className="btn btn-success cancel" onClick={() => navigate("/")}>Cancel</button>
                       <button type="submit" className="btn btn-success login" >Create An Account</button>
@@ -135,8 +144,6 @@ export const Signup = () => {
                 </form>
               </div>
             </div>
-            {/* <div className='col-md-7 right-side image-part'>
-            </div> */}
           </div>
         </div>
       </div>

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import CarouselSlider from './Carousel';
 
-import { Aboutus } from './Aboutus';
-import { Navbar } from './Navbar';
+import { Aboutus } from './AboutUs/Aboutus';
+import { Navbar } from './Header/Navbar';
 import { TopPart } from './TopPart';
-import { BookTable } from './BookTable';
+import { BookTable } from './bookTable/BookTable';
 import { Chefs } from './Chefs/Chefs';
 import { Footer } from './Footer/Footer';
 import { ContactUs } from './Contactus/ContactUs';

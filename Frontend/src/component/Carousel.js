@@ -30,7 +30,6 @@ const CarouselSlider = () => {
     return (
         <>
         <div className='carousel'>
-
             <Carousel swipeable={false}
                 transitionDuration={2000}
                 backdrop="static"
@@ -63,10 +62,9 @@ const CarouselSlider = () => {
                         <Carousel.Item>
                             <img
                                 src={item.image}
-                                alt="nfosfn"
+                                alt="---"
                                 className="slider-img"
-                                key="{item}"
-                            // style={{ width: "100%", height: 'auto' }}
+                                key={item.id}
                             ></img>
                         </Carousel.Item>
                     )
@@ -77,4 +75,4 @@ const CarouselSlider = () => {
     )
 }
 
-export default CarouselSlider
+export default CarouselSlider;

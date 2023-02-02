@@ -1,45 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import bookimg from '../Assets/pictures/booktable.jpg'
+import React, { useState } from 'react'
+import bookimg from '../../Assets/pictures/booktable.jpg'
 import Modal from 'react-bootstrap/Modal';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-export const BookTable = () => {
 
+export const BookTable = () => {
     const [tabledata, setTableData] = useState({
         fname: '', lname: '', date: '', time: '', size: '', phone: '', message: ''
     })
     const [pleaselogin, setPleaseLogin] = useState(false)
-
-
-    const navigate = useNavigate();
     const handelSubmit = (e) => {
         e.preventDefault()
-    }
+        if( localStorage.getItem("users")){
 
+        }else{
+            setPleaseLogin(true);
+            setTimeout(() => {
+                setPleaseLogin(false)
+            },2000)
+        }
+    }
     const handelChange = (e) => {
-        // e.preventDefault();
         if (e.target.name) {
             setTableData({ ...tabledata, [e.target.name]: e.target.value })
         }
     }
-    const handleClose = () => { setPleaseLogin(false); }
     return (
-
         <div id="booktable" className='text-center container'>
             {pleaselogin &&
-                <Modal show={pleaselogin} onHide={handleClose}>
-                    <Modal.Header closeButton>
-
+                <Modal show={pleaselogin}>
+                    <Modal.Header>
                     </Modal.Header>
                     <Modal.Body>Please Login to Book A Table.</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={() => navigate('/login')}>
-                            Login
-                        </Button>
-                    </Modal.Footer>
                 </Modal>
             }
             <div className='heading mt-5'>

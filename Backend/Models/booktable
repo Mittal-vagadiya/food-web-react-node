@@ -1,0 +1,42 @@
+var mongoose = require('mongoose');
+
+const BookTableSchema = mongoose.Schema({
+    firstname:{
+        type: String,
+        required: true,
+        maxlength: 100
+    },
+    lastname:{
+        type: String,
+        required: true,
+        maxlength: 100
+    },
+    Date:{
+        type:String,
+        required: true,
+        minlength:8
+    },
+    Time:{
+        type: String,
+        required: true,
+        trim: true,
+        unique: 1
+    },
+    TotalPerson:{
+        type:String,
+        required: true,
+        minlength:8
+    },
+    MobileNumber:{
+        type:String,
+        required: true,
+        minlength:8
+    },
+    Message:{
+        type: String,
+        required: true,
+        minlength:8
+    }
+});
+
+module.exports = mongoose.model('BookTable',BookTableSchema);
