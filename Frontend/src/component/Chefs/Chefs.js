@@ -1,7 +1,5 @@
 import React from 'react'
 import ChefsCard from './ChefsCard'
-
-
 export const Chefs = () => {
   
     return (

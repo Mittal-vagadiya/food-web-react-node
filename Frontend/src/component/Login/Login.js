@@ -35,12 +35,7 @@ export const Login = () => {
           setError(false);
       },2000);
     }
-  }
-
-  const googlelogin = () => {
-    // console.log(provider)
-  }
-  
+  } 
   const signup = () => {
     navigate('/signin')
   }
