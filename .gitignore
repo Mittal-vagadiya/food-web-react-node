@@ -8,11 +8,11 @@
 /build
 
 
-/Backend/node_modules
-/Frontend/node_modules
+Backend/node_modules
+Frontend/node_modules
 /.pnp
 .pnp.js
 
 
 #config
-/Backend/config/config.js
+Backend/config/config.js
