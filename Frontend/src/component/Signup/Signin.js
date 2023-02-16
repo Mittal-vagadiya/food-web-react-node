@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 export const Signup = () => {
   const navigate = useNavigate();
-  const [passerror, setPassError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [emailErr, setEmailErr] = useState(false);
   const [state, SetState] = useState({
     fname: '',
     lname: "", phone: "",
@@ -21,7 +22,6 @@ export const Signup = () => {
   const submitdata = async (e) => {
     e.preventDefault();
     const { fname, lname, phone, email, pass, repass } = state;
-    // console.log(state)
 
     let result = await fetch("http://localhost:5000/register", {
       method: "post",
@@ -31,33 +31,37 @@ export const Signup = () => {
       }
     })
     result = await result.json();
-    if (result) {
-      console.log("result ", result)
-      // let local = {
-      //     name: result.data.name,
-      //     email:result.data.email,
-      //     userID: result.data._id,
-      //     token: result.data.token,
-      //     isLognin: true
-      // }
-      // localStorage.setItem('users', JSON.stringify(local));
-      // navigate('/product-list');
+    if (result.auth == false) {
+      //email exist
+      setEmailErr(result.message)
+    }
+    else if (result.success == true) {
+      setEmailErr(result.message)
     } else {
-      console.log("error")
-      // setError(true)
-      // setTimeout(() => {
-      //     setError(false);
-      // },2000);
+      localStorage.setItem("user", JSON.stringify(result));
+      setSuccess(result.message);
+      navigate("/")
     }
   }
+
+  setTimeout(() => {
+    setEmailErr(false);
+    setSuccess(false)
+  }, [2000])
+
   return (
     <>
       <div className="landing-page">
         <div className='container'>
           <div className='row d-flex content'>
-            {passerror && <div className="alert alert-danger" role="alert">
-              A simple danger alert—check it out!
+            {emailErr && <div className="alert alert-danger" role="alert">
+              {emailErr}
             </div>}
+
+            {success && <div className="alert alert-success" role="alert">
+              {success}
+            </div>}
+
             <div className='col-md-12 left-side'>
               <div className='heading'>
                 <h3>Food Website</h3>

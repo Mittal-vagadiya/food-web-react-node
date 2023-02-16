@@ -7,7 +7,7 @@ const User = require("./Models/user");
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-
+const auth = require("./MiddleWares/auth");
 const app = express();
 // app use
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -22,6 +22,12 @@ mongoose.connect(db.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true 
     console.log("database is connected");
 });
 
+// listening port
+const PORT = db.PORT || 5500;
+app.listen(PORT, () => {
+    console.log(`app is live at ${PORT}`);
+});
+
 // /with the registering user 
 app.post('/register', function (req, res) {
     const { fname, lname, email, phone, pass, repass } = req.body
@@ -29,19 +35,20 @@ app.post('/register', function (req, res) {
     // taking a user
     const newuser = new User({ firstname: fname, lastname: lname, mobileNumber: phone, email: email, password: pass, password2: repass });
 
-    if (newuser.password != newuser.password2) return res.status(400).json({ message: "password not match" });
-
+    
     User.findOne({ email: newuser.email }, function (err, user) {
         if (user) return res.status(400).json({ auth: false, message: "email exits" });
+        if (newuser.password != newuser.password2) return res.status(400).json({ auth:false,message: "password not match" });
 
         newuser.save((err, doc) => {
             if (err) {
                 console.log(err);
-                return res.status(400).json({ success: false });
+                return res.status(400).json({ success: false, message: "something is wrong",error:err});
             }
             res.status(200).json({
                 succes: true,
-                user: doc
+                message: "User Created Successfully-",
+                user: { firstname : newuser.firstname , lastname: newuser.lastname , email: newuser.email, mobileNumber: newuser.mobileNumber}
             });
         });
     });
@@ -65,7 +72,7 @@ app.post("/login", (request, response) => {
                     if (!passwordCheck) {
                         return response.status(400).send({
                             message: "Passwords does not match",
-                            error,
+                            success:false
                         });
                     }
 
@@ -85,13 +92,14 @@ app.post("/login", (request, response) => {
                         userId: user._id,
                         email: user.email,
                         token,
+                        success:true
                     });
                 })
                 // catch error if password does not match
                 .catch((error) => {
                     response.status(400).send({
                         message: "Passwords does not match",
-                        error,
+                        success: false
                     });
                 });
         })
@@ -99,36 +107,12 @@ app.post("/login", (request, response) => {
         .catch((e) => {
             response.status(404).send({
                 message: "Email not found",
-                e,
+                succes:false
             });
         });
 });
 
-
-// listening port
-const PORT = db.PORT || 5500;
-app.listen(PORT, () => {
-    console.log(`app is live at ${PORT}`);
+app.post('/check',auth, function (req, res) {
+    res.status(200).send("Welcome 🙌 ");
 });
 
-function verifytoken(req, res, next) {
-    var token = req.body.token;
-    let jwtSecretKey = db.SECRET;
-    if (!token)
-        return res.status(403).send({ auth: false, message: 'No token provided.' });
-
-    var decode =  jwt.verify(token, jwtSecretKey, function(err, decoded) {      
-        if (err) {
-           return res.json({ success: false, message: 'Failed to authenticate token.' });    
-        } else {
-          // if everything is good, save to request for use in other routes
-          res.json({ success: true, message: 'Authenticate Sucessfully.'}); 
-        next();
-       }
-    });
-}
-
-
-app.get("/booktable", verifytoken, function (req, res) {
-    res.send("auth successfully")
-})

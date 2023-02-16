@@ -8,6 +8,7 @@ export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
+  const [success ,setSuccess] = useState(false)
 
   const login = async (e) => {
     e.preventDefault();
@@ -19,23 +20,25 @@ export const Login = () => {
       }
     })
     result = await result.json();
-    if (result) {
-      console.log("result ", result)
+    if (result.success == true) {
       let local = {
           email:result.email,
           userID:result.userId,
           token: result.token,
       }
-      localStorage.setItem('users', JSON.stringify(local));
-      navigate("/")
-    } else {
-      console.log("error")
-      setError(true)
+      setSuccess(result.message)
+      localStorage.setItem('user', JSON.stringify(local));
       setTimeout(() => {
-          setError(false);
-      },2000);
+        navigate("/")
+      },[1000])
+    } else {
+      setError(result.message)
     }
   } 
+  setTimeout(() => {
+      setError(false);
+  },2000);
+
   const signup = () => {
     navigate('/signin')
   }
@@ -47,6 +50,9 @@ export const Login = () => {
           <div className='row d-flex content'>
             {error && <div className="alert alert-danger alert-dismissible fade show" role="alert">
               <strong>{error}</strong>
+            </div>}
+            {success && <div className="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>{success}</strong>
             </div>}
             <div className='col-md-5 left-side'>
               <div className='heading'>

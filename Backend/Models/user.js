@@ -1,8 +1,6 @@
 
 var mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const confiq = require('../config/config').get(process.env.NODE_ENV);
 const salt = 10;
 
 const userSchema = mongoose.Schema({
@@ -19,7 +17,7 @@ const userSchema = mongoose.Schema({
     mobileNumber:{
         type:Number,
         required: true,
-        // minlength:8
+        minlength:8
     },
     email:{
         type: String,
@@ -62,51 +60,5 @@ userSchema.pre('save',function(next){
         next();
     }
 });
-
-// // for comparing the password entered by user with our saved password we have to decode the previous one,
-// userSchema.methods.comparepassword = function(password,cb){
-//     console.log("password",password)
-//     console.log("this.passss",this.password)
-//     bcrypt.compare(password,this.password,function(err,isMatch){
-//         console.log("errr",err);
-//         console.log("isMatch",isMatch)
-//         if(err) return cb(next);
-//         cb(null,isMatch);
-//     });
-// }
-
-// // / generating a token when user logged in.
-// userSchema.methods.generateToken=function(cb){
-//     var user =this;
-//     var token=jwt.sign(user._id.toHexString(),confiq.SECRET);
-
-//     user.token=token;
-//     user.save(function(err,user){
-//         if(err) return cb(err);
-//         cb(null,user);
-//     })
-// }
-
-// // /to find a particular token 
-// userSchema.statics.findByToken=function(token,cb){
-//     var user=this;
-
-//     jwt.verify(token,confiq.SECRET,function(err,decode){
-//         user.findOne({"_id": decode, "token":token},function(err,user){
-//             if(err) return cb(err);
-//             cb(null,user);
-//         })
-//     })
-// };
-
-// // /deleting a token, when the user logout we will delete this particular token.
-// userSchema.methods.deleteToken=function(token,cb){
-//     var user=this;
-
-//     user.update({$unset : {token :1}},function(err,user){
-//         if(err) return cb(err);
-//         cb(null,user);
-//     })
-// }
 
 module.exports = mongoose.model('User',userSchema);
